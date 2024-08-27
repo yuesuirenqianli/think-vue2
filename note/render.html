@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>render</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const component = {
+        tag: "div",
+        props: {
+          class: "message",
+        },
+        children: "Create component",
+      };
+
+      const vnode = {
+        tag: "form",
+        props: {
+          class: "container",
+        },
+        children: [
+          {
+            tag: component,
+          },
+          {
+            tag: "input",
+            props: {
+              name: "component name",
+              placeholder: "enter component name",
+            },
+          },
+          {
+            tag: "button",
+            props: {
+              type: "submit",
+            },
+            events: {
+              onClick: (e) => {
+                // TODO: update component name list
+              },
+            },
+            children: "Create",
+          },
+          {
+            tag: "br",
+          },
+          {
+            tag: "br",
+          },
+          {
+            tag: function () {
+              return {
+                tag: "div",
+                children: [
+                  {
+                    tag: "h3",
+                    children: "component list:",
+                  },
+                  {
+                    tag: "ul",
+                    children: [
+                      {
+                        tag: "li",
+                        children: "Message",
+                      },
+                    ],
+                  },
+                ],
+              };
+            },
+          },
+        ],
+      };
+
+      renderder(vnode, document.querySelector("#app"));
+
+      function renderder(vnode, container) {
+        switch (typeof vnode.tag) {
+          case "string":
+            render(vnode, container);
+            break;
+          case "function":
+            render(vnode.tag(), container);
+            break;
+          case "object":
+            render(vnode.tag, container);
+            break;
+        }
+      }
+
+      function render(vnode, container) {
+        const el = document.createElement(vnode.tag);
+
+        for (const key in vnode.props) {
+          el.setAttribute(key, vnode.props[key]);
+        }
+
+        for (const key in vnode.events) {
+          if (/^on/.test(key)) {
+            el.addEventListener(key.substr(2).toLowerCase(), vnode.events[key]);
+          }
+        }
+
+        if (typeof vnode.children === "string") {
+          el.appendChild(document.createTextNode(vnode.children));
+        } else if (Array.isArray(vnode.children)) {
+          vnode.children.forEach((child) => renderder(child, el));
+        }
+
+        container.appendChild(el);
+      }
+    </script>
+  </body>
+</html>

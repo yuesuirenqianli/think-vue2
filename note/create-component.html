@@ -3,19 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>create component</title>
     <script src="../dist/vue.js"></script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app"><message></message></div>
 
     <script>
-      Vue.component("Message", {
-        template: "<h1>Hello</h1>",
-      });
+      const HelloWorld = {
+        name: 'HelloWorld',
+        props: {
+          msg: String,
+        },
+        template: 
+        ` <div class="hello">
+            <h1>{{ msg }}</h1>
+            <p>
+              For a guide and recipes on how to configure / customize this project,<br />
+              check out the
+              <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
+                >vue-cli documentation</a
+              >.
+            </p>
+          </div>
+        `,
+      };
+
+      const App = {
+        name: 'App',
+        components: {
+          HelloWorld
+        },
+        template: `
+        <div id="app">
+          <HelloWorld msg="Welcome to Your Vue.js App" />
+        </div>`,
+      };
+
       new Vue({
-        el: "#app",
-      });
+        render: (h) => h(App),
+      }).$mount("#app");
     </script>
   </body>
 </html>

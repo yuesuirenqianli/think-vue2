@@ -111,7 +111,3 @@ function tokenize(str) {
 
   return tokens;
 }
-
-const tokens = tokenize(`<p>Vue</p>`);
-
-console.log(tokens);
