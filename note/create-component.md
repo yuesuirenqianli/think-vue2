@@ -77,45 +77,7 @@ const componentVNodeHooks = {
       ));
       child.$mount(hydrating ? vnode.elm : undefined, hydrating);
     }
-  },
-
-  prepatch(oldVnode: MountedComponentVNode, vnode: MountedComponentVNode) {
-    const options = vnode.componentOptions;
-    const child = (vnode.componentInstance = oldVnode.componentInstance);
-    updateChildComponent(
-      child,
-      options.propsData, // updated props
-      options.listeners, // updated listeners
-      vnode, // new parent vnode
-      options.children // new children
-    );
-  },
-
-  insert(vnode: MountedComponentVNode) {
-    const { context, componentInstance } = vnode;
-    if (!componentInstance._isMounted) {
-      componentInstance._isMounted = true;
-      callHook(componentInstance, "mounted");
-    }
-    if (vnode.data.keepAlive) {
-      if (context._isMounted) {
-        queueActivatedComponent(componentInstance);
-      } else {
-        activateChildComponent(componentInstance, true /* direct */);
-      }
-    }
-  },
-
-  destroy(vnode: MountedComponentVNode) {
-    const { componentInstance } = vnode;
-    if (!componentInstance._isDestroyed) {
-      if (!vnode.data.keepAlive) {
-        componentInstance.$destroy();
-      } else {
-        deactivateChildComponent(componentInstance, true /* direct */);
-      }
-    }
-  },
+  }
 };
 ```
 
