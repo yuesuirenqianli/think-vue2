@@ -11,9 +11,17 @@ vue source code learning
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Local File",
-      "file": "${workspaceFolder}/note/create-tag.html",
-      "runtimeArgs": ["--incognito"]
+      "name": "Vue",
+      "file": "${workspaceFolder}/note/compiler.html",
+      "runtimeArgs": ["--incognito", "--auto-open-devtools-for-tabs"]
+    },
+    {
+      "type": "node",
+      "name": "Node",
+      "program": "${workspaceFolder}/note/code/State.js",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      "stopOnEntry": true
     }
   ]
 }
